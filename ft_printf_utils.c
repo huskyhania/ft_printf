@@ -6,7 +6,7 @@
 /*   By: hskrzypi <hskrzypi@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:30:52 by hskrzypi          #+#    #+#             */
-/*   Updated: 2024/06/09 17:43:31 by hskrzypi         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:01:13 by hskrzypi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	ft_putstr(char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+	{
+		write(1, "(null)", 6);
+		i = i + 6;
+		return (i);
+	}
 	while (s[i] != '\0')
 	{
 		write(1, &s[i], 1);
@@ -62,10 +68,17 @@ int	ft_pointer(void *ptr)
 	int			length;
 	uintptr_t	helper;
 
+	length = 0;
 	helper = (uintptr_t)ptr;
-	ft_putchar('0');
-	ft_putchar('x');
-	length = ft_putnbr(helper, 16, 'x');
+	length += ft_putchar('0');
+	length += ft_putchar('x');
+	if (helper == 0)
+	{
+		length += ft_putchar('0');
+		return (length);
+	}
+	else
+		length = ft_putnbr(helper, 16, 'x');
 	length = length + 2;
 	return (length);
 }
