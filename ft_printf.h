@@ -6,7 +6,7 @@
 /*   By: hskrzypi <hskrzypi@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:32:16 by hskrzypi          #+#    #+#             */
-/*   Updated: 2024/06/10 22:10:15 by hskrzypi         ###   ########.fr       */
+/*   Updated: 2024/06/12 23:22:05 by hskrzypi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 # include <stdarg.h>
 # include <unistd.h>
-# include <stdint.h>
-# include <limits.h>
-# include <stdint.h>
 
 int			ft_putchar(int c);
 int			ft_putstr(char *s);
