@@ -6,7 +6,7 @@
 #    By: hskrzypi <hskrzypi@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/09 17:22:20 by hskrzypi          #+#    #+#              #
-#    Updated: 2024/06/09 17:45:54 by hskrzypi         ###   ########.fr        #
+#    Updated: 2024/06/12 20:56:03 by hskrzypi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CFLAGS	= -Wall -Wextra -Werror
 all: ${NAME}
 
 .c.o:
-	${CC} ${CFLAGS} -c -I ${HEAD} $< -o ${<:.c=.o}
+	${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}: ${OBJS}
 	${AR} ${NAME} ${OBJS}

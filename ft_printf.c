@@ -6,7 +6,7 @@
 /*   By: hskrzypi <hskrzypi@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:27:28 by hskrzypi          #+#    #+#             */
-/*   Updated: 2024/06/09 17:39:23 by hskrzypi         ###   ########.fr       */
+/*   Updated: 2024/06/12 21:02:58 by hskrzypi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,71 @@
 
 static int	print_choice(char specifier, va_list arguments)
 {
-	int	count;
+	int		count;
+	char	*base_chars;
 
 	count = 0;
+	base_chars = "0123456789abcdef";
 	if (specifier == 'c')
-		count += ft_putchar(va_arg(arguments, int));
+		count = ft_putchar(va_arg(arguments, int));
 	else if (specifier == 's')
-		count += ft_putstr(va_arg(arguments, char *));
-	else if (specifier == 'd' || specifier == 'u' || specifier == 'i')
-		count += ft_putnbr(va_arg(arguments, int), 10, specifier);
+		count = ft_putstr(va_arg(arguments, char *));
+	else if (specifier == 'd' || specifier == 'i')
+		count = ft_putnbr(va_arg(arguments, int), 10, specifier);
+	else if (specifier == 'u')
+		count = ft_putnbr(va_arg(arguments, unsigned int), 10, specifier);
 	else if (specifier == 'x' || specifier == 'X')
-		count += ft_putnbr(va_arg(arguments, unsigned int), 16, specifier);
-	else if (specifier == '%')
-		count += ft_putchar(specifier);
+		count = ft_putnbr(va_arg(arguments, unsigned int), 16, specifier);
 	else if (specifier == 'p')
-		count += ft_pointer(va_arg(arguments, void *));
+		count = ft_pointer(va_arg(arguments, void *), 0, 0, base_chars);
+	else
+		count = ft_putchar(specifier);
 	return (count);
+}
+
+static int	helper(const char *s, va_list arguments, int count, int total)
+{
+	while (*s != '\0')
+	{
+		if (*s != '%')
+		{
+			if (write(1, s, 1) == -1)
+				return (-1);
+			total++;
+		}
+		if (*s == '%')
+		{
+			s++;
+			if (*s == '\0')
+				break ;
+			else
+			{
+				count = print_choice(*s, arguments);
+				if (count == -1)
+					return (-1);
+				total = total + count;
+			}
+		}
+		s++;
+	}
+	return (total);
 }
 
 int	ft_printf(const char *s, ...)
 {
 	va_list	arguments;
 	int		count;
+	int		total_count;
 
-	va_start(arguments, s);
 	count = 0;
-	while (*s != '\0')
-	{
-		if (*s != '%')
-		{
-			write(1, s, 1);
-			count++;
-		}
-		if (*s == '%')
-		{
-			count += print_choice(*(++s), arguments);
-		}
-		++s;
-	}
+	total_count = 0;
+	va_start(arguments, s);
+	total_count = helper(s, arguments, count, total_count);
 	va_end(arguments);
-	return (count);
+	return (total_count);
 }
 /*
-int main(void)
-{
-	char *str = "abcde fgh12344 jdhx";
-	int my_print = ft_printf("%s", str);
-	int my_print2 = ft_printf("\n");
-	int org_print = printf("%s", str);
-	int org_print2 = printf("\n");
-	printf("%d\n %d\n %d\n %d\n", my_print, my_print2, org_print, org_print2);
-	return (0);
-}
-int print_result = ft_printf("something\n");
-printf("%d\n", result);
-return (0);
+#include <stdio.h>
 
 int main(void)
 {
